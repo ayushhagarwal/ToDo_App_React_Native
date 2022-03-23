@@ -37,6 +37,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     maxWidth: "80",
+    paddingLeft: 10,
   },
   circular: {
     width: 12,
