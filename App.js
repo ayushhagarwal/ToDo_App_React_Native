@@ -1,4 +1,4 @@
-import { StatusBar } from "expo-status-bar";
+import React, { useState } from "react";
 import {
   Platform,
   TextInput,
@@ -7,10 +7,21 @@ import {
   Text,
   View,
   TouchableOpacity,
+  StatusBar,
 } from "react-native";
 import Task from "./components/Task";
+import { Keyboard } from "react-native-web";
 
 export default function App() {
+  const [task, setTask] = useState();
+  const [taskItems, setTaskItems] = useState([]);
+
+  const handleAddTask = () => {
+    Keyboard.dismiss();
+    setTaskItems([...taskItems, task]);
+    setTask(null);
+  };
+
   return (
     <View style={styles.container}>
       {/* Today's Tasks */}
@@ -18,8 +29,10 @@ export default function App() {
         <Text style={styles.sectionTitle}>Today's Tasks</Text>
         <View style={styles.items}>
           {/* This is where the tasks will go */}
-          <Task text={"Task 1"} />
-          <Task text={"Task 2"} />
+
+          {taskItems.map((item, index) => {
+            return <Task key={index} text={item} />;
+          })}
         </View>
       </View>
       {/* Add Task */}
@@ -30,8 +43,10 @@ export default function App() {
         <TextInput
           style={styles.input}
           placeholder={"Enter a Task"}
+          value={task}
+          onChangeText={(text) => setTask(text)}
         ></TextInput>
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => handleAddTask()}>
           <View style={styles.addWrapper}>
             <Text style={styles.addText}></Text>
           </View>
