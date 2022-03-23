@@ -7,10 +7,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  StatusBar,
+  Keyboard,
 } from "react-native";
 import Task from "./components/Task";
-import { Keyboard } from "react-native-web";
 
 export default function App() {
   const [task, setTask] = useState();
@@ -22,6 +21,11 @@ export default function App() {
     setTask(null);
   };
 
+  const completeTask = (index) => {
+    let itemsCopy = [...taskItems];
+    itemsCopy.splice(index, 1);
+    setTaskItems(itemsCopy);
+  };
   return (
     <View style={styles.container}>
       {/* Today's Tasks */}
@@ -31,7 +35,11 @@ export default function App() {
           {/* This is where the tasks will go */}
 
           {taskItems.map((item, index) => {
-            return <Task key={index} text={item} />;
+            return (
+              <TouchableOpacity key={index} onPress={() => completeTask()}>
+                <Task text={item} />;
+              </TouchableOpacity>
+            );
           })}
         </View>
       </View>
